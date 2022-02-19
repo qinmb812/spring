@@ -1,6 +1,7 @@
 package com.at.spring5.testdemo;
 
 import com.at.spring5.Book;
+import com.at.spring5.Order;
 import com.at.spring5.User;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -25,5 +26,13 @@ public class TestSpring5 {
         Book book = context.getBean("book", Book.class);
         System.out.println(book);
         book.testDemo();
+    }
+
+    @Test
+    public void testOrder(){
+        ApplicationContext context=new ClassPathXmlApplicationContext("bean1.xml");
+        Order order = context.getBean("order", Order.class);
+        System.out.println(order);
+        order.orderTest();
     }
 }

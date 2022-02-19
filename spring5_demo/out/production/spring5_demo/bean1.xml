@@ -4,4 +4,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="user" class="com.at.spring5.User"></bean>
+
+    <!--使用set来设置属性值-->
+    <bean id="book" class="com.at.spring5.Book">
+        <property name="bname" value="斗破苍穹"></property>
+        <property name="bauthor" value="天蚕土豆"></property>
+    </bean>
+
+    <!--有参数构造注入属性-->
+    <bean id="order" class="com.at.spring5.Order">
+        <constructor-arg name="oname" value="abc"></constructor-arg>
+        <constructor-arg name="address" value="China"></constructor-arg>
+    </bean>
 </beans>
