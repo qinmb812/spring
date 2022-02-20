@@ -20,4 +20,11 @@ public class TestBean {
         Emp emp = context.getBean("emp", Emp.class);
         emp.add();
     }
+
+    @Test
+    public void testBean3() {
+        ApplicationContext context = new ClassPathXmlApplicationContext("bean4.xml");
+        Emp emp = context.getBean("emp", Emp.class);
+        emp.add();
+    }
 }

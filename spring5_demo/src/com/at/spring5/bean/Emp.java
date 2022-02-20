@@ -9,6 +9,11 @@ public class Emp {
     // 员工属于某一个部门，使用对象形式表示
     private Dept dept;
 
+    // 生成的dept的get方法
+    public Dept getDept() {
+        return dept;
+    }
+
     public void setDept(Dept dept) {
         this.dept = dept;
     }
