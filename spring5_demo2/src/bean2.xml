@@ -12,7 +12,7 @@
         <value>莽荒纪</value>
     </util:list>
     <!-- 2 提取List集合类型属性注入使用 -->
-    <bean id="book" class="com.at.spring5.collectiontype.Book">
+    <bean id="book" class="com.at.spring5.collectiontype.Book" scope="prototype">
         <property name="list" ref="booklist"></property>
     </bean>
 </beans>
