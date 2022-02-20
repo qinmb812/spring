@@ -3,6 +3,7 @@ package com.at.spring5.service;
 import com.at.spring5.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ import javax.annotation.Resource;
 // @Component(value = "userService")   // <bean id="userService" class=".."/>
 @Service
 public class UserService {
+    @Value("abc")
+    private String name;
+
 //    @Autowired    // 根据类型进行注入
 //    @Qualifier("userDaoImpl")   // 根据名称进行注入
 //    private UserDao userDao;
@@ -23,7 +27,7 @@ public class UserService {
     private UserDao userDao;
 
     public void add() {
-        System.out.println("service add .........");
+        System.out.println("service add ........." + name);
         userDao.add();
     }
 }
