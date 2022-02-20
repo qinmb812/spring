@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- 1 提取List集合类型属性注入 -->
+    <util:list id="booklist">
+        <value>斗破苍穹</value>
+        <value>斗罗大陆</value>
+        <value>莽荒纪</value>
+    </util:list>
+    <!-- 2 提取List集合类型属性注入使用 -->
+    <bean id="book" class="com.at.spring5.collectiontype.Book">
+        <property name="list" ref="booklist"></property>
+    </bean>
+</beans>
