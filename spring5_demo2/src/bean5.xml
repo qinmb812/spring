@@ -5,8 +5,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="emp" class="com.at.spring5.autowire.Emp">
-        <property name="dept" ref="dept"></property>
+    <!-- 实现自动装配
+         bean标签属性autowire，配置自动装配
+         autowire属性常用两个值：
+            byName：根据属性名称注入，注入值bean的id值和类属性名称一样
+            byType：根据属性类型注入
+    -->
+    <bean id="emp" class="com.at.spring5.autowire.Emp" autowire="byName">
+<!--        <property name="dept" ref="dept"></property>-->
     </bean>
 
     <bean id="dept" class="com.at.spring5.autowire.Dept"></bean>
