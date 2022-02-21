@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestBook {
@@ -40,7 +41,35 @@ public class TestBook {
 //        System.out.println(book);
 
         // 查询返回集合
-        List<Book> bookList = bookService.findAllBook();
-        System.out.println(bookList);
+//        List<Book> bookList = bookService.findAllBook();
+//        System.out.println(bookList);
+
+        // 批量添加
+//        List<Object[]> batchArgs =new ArrayList<>();
+//        Object[] o1={"4","java","a"};
+//        Object[] o2={"5","c++","b"};
+//        Object[] o3={"6","MySQL","c"};
+//        batchArgs.add(o1);
+//        batchArgs.add(o2);
+//        batchArgs.add(o3);
+//        bookService.batchAdd(batchArgs);
+
+        // 批量修改
+//        List<Object[]> batchArgs = new ArrayList<>();
+//        Object[] o1 = {"javaEE", "a4", "4"};
+//        Object[] o2 = {"c++++", "b5", "5"};
+//        Object[] o3 = {"MySQL|Oracle", "c6", "6"};
+//        batchArgs.add(o1);
+//        batchArgs.add(o2);
+//        batchArgs.add(o3);
+//        bookService.batchUpdate(batchArgs);
+
+        // 批量修改
+        List<Object[]> batchArgs = new ArrayList<>();
+        Object[] o1 = {"4"};
+        Object[] o2 = {"5"};
+        batchArgs.add(o1);
+        batchArgs.add(o2);
+        bookService.batchDelete(batchArgs);
     }
 }
