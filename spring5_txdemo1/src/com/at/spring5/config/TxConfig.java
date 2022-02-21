@@ -52,5 +52,5 @@ public class TxConfig {
  *                      expected at least 1 bean which qualifies as autowire candidate.
  *                      Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
  *
- * 出现这个错误是有的方法上面没有写上@Bean
+ * 出现这个错误是有的方法上面没有写上@Bean注解
  */
