@@ -14,6 +14,14 @@ public class TestBook {
         UserService userService = context.getBean("userService", UserService.class);
         userService.accountMoney();
     }
+    /*
+     * org.springframework.beans.factory.NoUniqueBeanDefinitionException:
+     *      No qualifying bean of type 'org.springframework.transaction.TransactionManager' available:
+     *          expected single matching bean but found 2:
+     *              transactionManager,getDataSourceTransactionManager
+     *
+     * 出现这个问题将对应的@Transactional注解去掉
+     */
 
     @Test
     public void testAccount2() {
