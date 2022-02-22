@@ -19,4 +19,4 @@ Spring学习
 org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.springframework.transaction.TransactionManager' available: expected single matching bean but found 2: transactionManager,getDataSourceTransactionManager
 ```
 
-解决方法：出现这个异常是对应的类上面写上了@Transactional注解，将该@Transactional注解去掉即可。
+解决方法：出现这个异常是对应的类上面写上了@Transactional注解，将该@Transactional注解去掉或者将配置类中的创建事务管理器方删除即可。

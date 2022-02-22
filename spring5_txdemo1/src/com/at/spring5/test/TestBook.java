@@ -21,7 +21,7 @@ public class TestBook {
      *          expected single matching bean but found 2:
      *              transactionManager,getDataSourceTransactionManager
      *
-     * 出现这个问题将对应的@Transactional注解去掉
+     * 出现这个问题将对应的@Transactional注解去掉或者将配置类中的创建事务管理器方法删除
      */
 
     @Test
