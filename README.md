@@ -13,6 +13,90 @@ Spring学习
 
 
 
+# 2 Bean定义
+
+1. bean标签：<bean/>
+
+   bean标签相关的配置文件的内容如下：
+
+   ```xml
+   <?xml version="1.0" encoding="UTF-8"?>
+   <beans xmlns="http://www.springframework.org/schema/beans"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.springframework.org/schema/beans
+                              http://www.springframework.org/schema/beans/spring-beans.xsd">
+       <bean id="user" class="com.luban.User"/>
+   </beans
+   ```
+
+   获取的代码如下：
+
+   ```java
+   ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
+   User user1 = applicationContext.getBean("user", User.class);
+   System.out.println(user1);
+   ```
+
+2. @Component（@Service、@Controller）注解
+
+   @Component注解的代码如下：
+
+   ```java
+   @Component
+   public class User {
+       private String name;
+       public String getName() {
+           return name;
+       }
+       public void setName(String name) {
+           this.name = name;
+       }
+   }
+   ```
+
+   配置类的代码如下：
+
+   ```java
+   @ComponentScan("com.luban")
+   public class Config {
+       @Bean
+       public User user() {
+           return new User();
+       }
+   }
+   ```
+
+   获取的代码如下：
+
+   ```java
+   AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(Config.class);
+   User user2 = context.getBean("user", User.class);
+   System.out.println(user2);
+   ```
+
+3. @Bean注解
+
+   @Bean注解的代码如下：
+
+   ```java
+   public class Config {
+       @Bean
+       public User user() {
+           return new User();
+       }
+   }
+   ```
+
+   获取的代码如下：
+
+   ```java
+   AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(Config.class);
+   User user2 = context.getBean("user", User.class);
+   System.out.println(user2);
+   ```
+
+
+
 
 
 # Bug1：*--2022.2.21*

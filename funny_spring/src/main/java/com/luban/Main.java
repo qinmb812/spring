@@ -1,5 +1,6 @@
 package com.luban;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
@@ -10,7 +11,14 @@ public class Main {
         String name = user.getName();
 
         // Spring框架生成的对象 --> SpringBean
+        // 通过bean标签定义Bean
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
-        User user1 = applicationContext.getBean("user", User.class);
+        User user1 = applicationContext.getBean("user", User.class);    // 根据定义的Bean去生成Bean对象
+        System.out.println(user1);
+
+        // 通过@Bean注解定义Bean
+        AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(Config.class);
+        User user2 = context.getBean("user", User.class);
+        System.out.println(user2);
     }
 }
