@@ -15,7 +15,7 @@ Spring学习
 
 # 2 Bean定义
 
-1. bean标签：<bean/>
+1. bean标签（<bean/>）：声明式方式定义Bean
 
    bean标签相关的配置文件的内容如下：
 
@@ -37,7 +37,7 @@ Spring学习
    System.out.println(user1);
    ```
 
-2. @Component（@Service、@Controller）注解
+2. @Component（@Service、@Controller）注解：声明式方式定义Bean
 
    @Component注解的代码如下：
 
@@ -74,7 +74,7 @@ Spring学习
    System.out.println(user2);
    ```
 
-3. @Bean注解
+3. @Bean注解：声明式方式定义Bean
 
    @Bean注解的代码如下：
 
@@ -93,6 +93,20 @@ Spring学习
    AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(Config.class);
    User user2 = context.getBean("user", User.class);
    System.out.println(user2);
+   ```
+
+4. BeanDefinition：编程式方式定义Bean
+
+   代码如下：
+
+   ```java
+   AnnotationConfigApplicationContext applicationContext1=new AnnotationConfigApplicationContext();
+   AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder.genericBeanDefinition().getBeanDefinition();
+   beanDefinition.setBeanClass(User.class);
+   applicationContext1.registerBeanDefinition("user",beanDefinition);
+   applicationContext1.refresh();
+   User user3 = context.getBean("user", User.class);
+   System.out.println(user3);
    ```
 
 

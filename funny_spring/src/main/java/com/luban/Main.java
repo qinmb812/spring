@@ -1,5 +1,7 @@
 package com.luban;
 
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -20,5 +22,16 @@ public class Main {
         AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(Config.class);
         User user2 = context.getBean("user", User.class);
         System.out.println(user2);
+
+        // 编程式  TransactionManager
+        // 声明式  @Transactional
+        // BeanDefinition   编程式
+        AnnotationConfigApplicationContext applicationContext1=new AnnotationConfigApplicationContext();
+        AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder.genericBeanDefinition().getBeanDefinition();
+        beanDefinition.setBeanClass(User.class);
+        applicationContext1.registerBeanDefinition("user",beanDefinition);
+        applicationContext1.refresh();
+        User user3 = context.getBean("user", User.class);
+        System.out.println(user3);
     }
 }
