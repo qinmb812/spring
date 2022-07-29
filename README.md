@@ -109,6 +109,40 @@ Spring学习
    System.out.println(user3);
    ```
 
+5. FactoryBean：通过实现FactoryBean接口。首先它是一个Bean，但又不仅仅是一个Bean。它是一个能生产或修饰对象生成的工厂Bean，类似于设计模式中的工厂模式和装饰器模式。它能在需要的时候生产一个对象，且不仅仅限于它自身，它能返回任何Bean的实例。
+
+   实现FactoryBean接口的类如下：
+
+   ```java
+   public class QinFactoryBean implements FactoryBean {
+       @Override
+       public Object getObject() throws Exception {
+           Person person = new Person();
+           System.out.println(person);
+           return person;
+       }
+       @Override
+       public Class<?> getObjectType() {
+           return Person.class;
+       }
+   }
+   ```
+
+   获取的代码如下：
+
+   ```java
+   AnnotationConfigApplicationContext applicationContext2 = new AnnotationConfigApplicationContext();
+   AbstractBeanDefinition beanDefinition2 = BeanDefinitionBuilder.genericBeanDefinition().getBeanDefinition();
+   // 2个Bean对象     &user:QinFactoryBean类型的对象，    user:person
+   beanDefinition2.setBeanClass(QinFactoryBean.class);
+   applicationContext2.registerBeanDefinition("user", beanDefinition2);
+   applicationContext2.refresh();
+   QinFactoryBean user4 = applicationContext2.getBean("&user", QinFactoryBean.class);
+   System.out.println(user4);
+   Person person = applicationContext2.getBean("user", Person.class);
+   System.out.println(person);
+   ```
+
 
 
 

@@ -19,19 +19,30 @@ public class Main {
         System.out.println(user1);
 
         // 通过@Bean注解定义Bean
-        AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(Config.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
         User user2 = context.getBean("user", User.class);
         System.out.println(user2);
 
         // 编程式  TransactionManager
         // 声明式  @Transactional
         // BeanDefinition   编程式
-        AnnotationConfigApplicationContext applicationContext1=new AnnotationConfigApplicationContext();
+        AnnotationConfigApplicationContext applicationContext1 = new AnnotationConfigApplicationContext();
         AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder.genericBeanDefinition().getBeanDefinition();
         beanDefinition.setBeanClass(User.class);
-        applicationContext1.registerBeanDefinition("user",beanDefinition);
+        applicationContext1.registerBeanDefinition("user", beanDefinition);
         applicationContext1.refresh();
-        User user3 = context.getBean("user", User.class);
+        User user3 = applicationContext1.getBean("user", User.class);
         System.out.println(user3);
+
+        AnnotationConfigApplicationContext applicationContext2 = new AnnotationConfigApplicationContext();
+        AbstractBeanDefinition beanDefinition2 = BeanDefinitionBuilder.genericBeanDefinition().getBeanDefinition();
+        // 2个Bean对象     &user:QinFactoryBean类型的对象，    user:person
+        beanDefinition2.setBeanClass(QinFactoryBean.class);
+        applicationContext2.registerBeanDefinition("user", beanDefinition2);
+        applicationContext2.refresh();
+        QinFactoryBean user4 = applicationContext2.getBean("&user", QinFactoryBean.class);
+        System.out.println(user4);
+        Person person = applicationContext2.getBean("user", Person.class);
+        System.out.println(person);
     }
 }
