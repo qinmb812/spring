@@ -3,6 +3,18 @@ Spring学习
 
 
 
+# 1 JavaBean、SpringBean、对象之间的区别
+
+**对象：**Bean肯定是对象。
+
+**JavaBean：**所有的属性都是私有的，并提供get和set方法。
+
+**SpringBean：**由Spring框架生成的对象。
+
+
+
+
+
 # Bug1：*--2022.2.21*
 
 ```
@@ -20,3 +32,4 @@ org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying
 ```
 
 解决方法：出现这个异常是对应的类上面写上了@Transactional注解，将该@Transactional注解去掉或者将配置类中的创建事务管理器方删除即可。
+
