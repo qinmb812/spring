@@ -5,6 +5,8 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.function.Supplier;
+
 public class Main {
     public static void main(String[] args) {
         User user = new User(); // 对象   Bean肯定是对象
@@ -44,5 +46,19 @@ public class Main {
         System.out.println(user4);
         Person person = applicationContext2.getBean("user", Person.class);
         System.out.println(person);
+
+        AnnotationConfigApplicationContext applicationContext3 = new AnnotationConfigApplicationContext();
+        applicationContext3.registerBean(User.class, new Supplier<User>() {
+            @Override
+            public User get() {
+                User u = new User();
+                u.setName("xxxxxxx");
+                return u;
+            }
+        });
+        applicationContext3.refresh();
+        User user5 = applicationContext3.getBean("user", User.class);
+        System.out.println(user5);
+        System.out.println(user5.getName());
     }
 }

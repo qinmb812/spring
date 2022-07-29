@@ -143,6 +143,26 @@ Spring学习
    System.out.println(person);
    ```
 
+6. Supplier：Spring提供registerBean方法，将FactoryBean中的方式进行封装，以一种简单的方式注册Bean。获取Bean的时候用user是因为Spring默认名字是根据传入的类名(User.class)决定的。
+
+   实现的代码如下：
+
+   ```java
+   AnnotationConfigApplicationContext applicationContext3 = new AnnotationConfigApplicationContext();
+   applicationContext3.registerBean(User.class, new Supplier<User>() {
+       @Override
+       public User get() {
+           User u = new User();
+           u.setName("xxxxxxx");
+           return u;
+       }
+   });
+   applicationContext3.refresh();
+   User user5 = applicationContext3.getBean("user", User.class);
+   System.out.println(user5);
+   System.out.println(user5.getName());
+   ```
+
 
 
 
