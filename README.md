@@ -15,7 +15,7 @@ Spring学习
 
 # 2 Bean定义
 
-1. bean标签（<bean/>）：声明式方式定义Bean
+1. bean标签（<bean/>）：声明式方式定义Bean。在Spring的xml中定义Bean，Spring读取类中的构造方法建造的对象。
 
    bean标签相关的配置文件的内容如下：
 
@@ -37,7 +37,7 @@ Spring学习
    System.out.println(user1);
    ```
 
-2. @Component（@Service、@Controller）注解：声明式方式定义Bean
+2. @Component（@Service、@Controller）注解：声明式方式定义Bean。在一个方法上，方法中new出来的一个对象。
 
    @Component注解的代码如下：
 
@@ -74,7 +74,7 @@ Spring学习
    System.out.println(user2);
    ```
 
-3. @Bean注解：声明式方式定义Bean
+3. @Bean注解：声明式方式定义Bean。放在类上，注入一个Bean。
 
    @Bean注解的代码如下：
 
