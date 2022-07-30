@@ -19,8 +19,14 @@ public class Main {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
         User user1 = applicationContext.getBean("user", User.class);    // 根据定义的Bean去生成Bean对象
         // User     单例Bean == Spring容器里只能有一个User类型的Bean ? 0
-        System.out.println("单例Bean == Spring容器里只能有一个User类型的Bean ?");
         System.out.println(user1);
+
+        System.out.println("单例Bean == Spring容器里只能有一个User类型的Bean ?");
+        // 单例   原型（多例）
+        // 单例池  ConcurrentHashMap   singletonObject beanName Object     非懒加载的单例Bean
+        System.out.println(applicationContext.getBean("user", User.class));
+        System.out.println(applicationContext.getBean("user", User.class));
+        System.out.println(applicationContext.getBean("user2", User.class));
         System.out.println(applicationContext.getBean("user2", User.class));
 
         // 通过@Bean注解定义Bean

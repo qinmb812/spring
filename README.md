@@ -169,25 +169,62 @@ Spring学习
 
 ## 2.1 单例池、单例Bean、单例模式的区别
 
-单例Bean等同于Spring容器中只有一个某个类的对应的Bean么？ 并不等同。
+1. 单例Bean等同于Spring容器中只有一个某个类的对应的Bean么？ 并不等同。
 
-例如：xml的标签如下：
+   例如：xml的标签如下：
 
-```xml
-<bean id="user" class="com.luban.User"/>
-<bean id="user2" class="com.luban.User"/>
-```
+   ```xml
+   <bean id="user" class="com.luban.User"/>
+   <bean id="user2" class="com.luban.User"/>
+   ```
 
-测试代码如下：
+   测试代码如下：
 
-```java
-ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
-// User     单例Bean == Spring容器里只能有一个User类型的Bean ? 0
-System.out.println(applicationContext.getBean("user", User.class));
-System.out.println(applicationContext.getBean("user2", User.class));
-```
+   ```java
+   ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
+   // User     单例Bean == Spring容器里只能有一个User类型的Bean ? 0
+   System.out.println(applicationContext.getBean("user", User.class));
+   System.out.println(applicationContext.getBean("user2", User.class));
+   ```
 
-容器中的单例概念是作用在注册的Bean上，而不是类上。
+   容器中的单例概念是作用在注册的Bean上，而不是类上。
+
+2. 与单例概念不同的是原型（多例）的概念。Spring容器默认是单例模式来实现Bean的。
+
+   例如：定义的配置文件如下：
+
+   ```xml
+   <bean id="user" class="com.luban.User" scope="prototype"/>
+   <bean id="user2" class="com.luban.User"/>
+   ```
+
+   测试代码如下：
+
+   ```java
+   ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
+   // 单例   原型（多例）
+   // 单例池  ConcurrentHashMap   singletonObject beanName Object     非懒加载的单例Bean
+   System.out.println(applicationContext.getBean("user", User.class));
+   System.out.println(applicationContext.getBean("user", User.class));
+   System.out.println(applicationContext.getBean("user2", User.class));
+   System.out.println(applicationContext.getBean("user2", User.class));
+   ```
+
+   如果对bean注册时，scope(作用域)的值为prototype时，则是代表注册的是原型（多例）模式的Bean。
+
+   有些时候，可以把原型模式当作Java的new操作。即每次getBean的时候都相当于new一个Java对象——一个不同的Bean。
+
+   单例池其实就是一个保存单例Bean的池子，在Spring程序运行时就加载了，并将非懒加载的单例Bean放到容器中。它的底层是ConcurrentHashMap。SingletonObject : key : beanName value : Object 这种Map的保存方式就是保持单例的原因。对于一些懒加载的单例Bean则是啥时候用了就啥时候放到容器中。
+
+3. 例如，有一个Bean，类型为User，则：
+
+   单例Bean：Spring容器中可以有多个beanName不同，但是类型相同的bean。例如，可以有beanName分别为user1和user2，对应的类型都是User。
+
+   单例模式：是指每次创建的对象都是同一个。
+
+   单例模式是指在一个JVM进程中仅有一个实例，而单例bean是指在一个Spring Bean容器(ApplicationContext)中仅有一个实例。
+
+   单例池：spring源码中的定义为Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256)。其意义即为存储Spring生成的单例Bean。
 
 
 
