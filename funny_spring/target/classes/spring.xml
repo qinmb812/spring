@@ -10,4 +10,5 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop.xsd">
     <bean id="user" class="com.luban.User"/>
+    <bean id="user2" class="com.luban.User"/>
 </beans>

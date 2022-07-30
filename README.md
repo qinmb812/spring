@@ -3,7 +3,9 @@ Spring学习
 
 
 
-# 1 JavaBean、SpringBean、对象之间的区别
+# 1 定义Bean
+
+## 1.1 JavaBean、SpringBean、对象之间的区别
 
 **对象：**Bean肯定是对象。
 
@@ -11,9 +13,7 @@ Spring学习
 
 **SpringBean：**由Spring框架生成的对象。
 
-
-
-# 2 Bean定义
+## 1.2 Bean定义
 
 1. bean标签（<bean/>）：声明式方式定义Bean。在Spring的xml中定义Bean，Spring读取类中的构造方法建造的对象。
 
@@ -162,6 +162,32 @@ Spring学习
    System.out.println(user5);
    System.out.println(user5.getName());
    ```
+
+
+
+# 2 Spring容器
+
+## 2.1 单例池、单例Bean、单例模式的区别
+
+单例Bean等同于Spring容器中只有一个某个类的对应的Bean么？ 并不等同。
+
+例如：xml的标签如下：
+
+```xml
+<bean id="user" class="com.luban.User"/>
+<bean id="user2" class="com.luban.User"/>
+```
+
+测试代码如下：
+
+```java
+ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
+// User     单例Bean == Spring容器里只能有一个User类型的Bean ? 0
+System.out.println(applicationContext.getBean("user", User.class));
+System.out.println(applicationContext.getBean("user2", User.class));
+```
+
+容器中的单例概念是作用在注册的Bean上，而不是类上。
 
 
 
