@@ -2,6 +2,7 @@ package com.luban;
 
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -69,5 +70,18 @@ public class Main {
         User user5 = applicationContext3.getBean("user", User.class);
         System.out.println(user5);
         System.out.println(user5.getName());
+
+        // BeanFactory  Bean工厂-->生产Bean的
+        // BeanDefinition/对象
+        // BeanFactory  容器，BeanDefinition/对象
+        // 单例池  Map
+        System.out.println("----------BeanFactory---------");
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        // beanFactory.registerSingleton("user", new User());
+        AbstractBeanDefinition beanDefinition1 = BeanDefinitionBuilder.genericBeanDefinition().getBeanDefinition();
+        beanDefinition1.setBeanClass(User.class);
+        beanFactory.registerBeanDefinition("user", beanDefinition1);
+        User user6 = beanFactory.getBean("user", User.class);
+        System.out.println(user6);
     }
 }

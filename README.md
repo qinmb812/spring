@@ -214,7 +214,7 @@ Spring学习
 
    有些时候，可以把原型模式当作Java的new操作。即每次getBean的时候都相当于new一个Java对象——一个不同的Bean。
 
-   单例池其实就是一个保存单例Bean的池子，在Spring程序运行时就加载了，并将非懒加载的单例Bean放到容器中。它的底层是ConcurrentHashMap。SingletonObject : key : beanName value : Object 这种Map的保存方式就是保持单例的原因。对于一些懒加载的单例Bean则是啥时候用了就啥时候放到容器中。
+   单例池其实就是一个保存单例Bean的池子，在Spring程序运行时就加载了，并将非懒加载的单例Bean放到容器中。它的底层是ConcurrentHashMap。singletonObjects : key : beanName value : Object 这种Map的保存方式就是保持单例的原因。对于一些懒加载的单例Bean则是啥时候用了就啥时候放到容器中。
 
 3. 例如，有一个Bean，类型为User，则：
 
@@ -226,7 +226,75 @@ Spring学习
 
    单例池：spring源码中的定义为Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256)。其意义即为存储Spring生成的单例Bean。
 
+## 2.2 BeanFactory
 
+Bean工厂-->生产Bean的。
+
+> BeanFacotry是spring中比较原始的Factory。如XMLBeanFactory就是一种典型的BeanFactory。原始的BeanFactory无法支持spring的许多插件，如AOP功能、Web应用等。 ApplicationContext接口（应用程序上下文-IOC容器），它由BeanFactory接口派生而来，ApplicationContext包含BeanFactory的所有功能，通常建议比BeanFactory优先。
+
+例如：
+
+```java
+DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+// beanFactory.registerSingleton("user", new User());
+AbstractBeanDefinition beanDefinition1 = BeanDefinitionBuilder.genericBeanDefinition().getBeanDefinition();
+beanDefinition1.setBeanClass(User.class);
+beanFactory.registerBeanDefinition("user", beanDefinition1);
+User user6 = beanFactory.getBean("user", User.class);
+System.out.println(user6);
+```
+
+BeanFactory就是一个容器，它可以通过注册BeanDefinition的方式注册Bean，或者直接注册Bean对象，而后者只是前者的封装。
+
+## 2.3 BeanFactory与FactoryBean之间的区别
+
+- BeanFactory
+
+  > BeanFactory是IOC最基本的容器，负责**生产和管理bean**，它为其他具体的IOC容器实现提供了最基本的规范，例如DefaultListableBeanFactory,XmlBeanFactory, ApplicationContext 等具体的容器都是实现了BeanFactory，再在其基础之上附加了其他的功能。
+
+  BeanFactory源码：
+
+  ```java
+  public interface BeanFactory {
+      String FACTORY_BEAN_PREFIX = "&";
+      Object getBean(String var1) throws BeansException;
+      <T> T getBean(String var1, Class<T> var2) throws BeansException;
+      Object getBean(String var1, Object... var2) throws BeansException;
+      <T> T getBean(Class<T> var1) throws BeansException;
+      <T> T getBean(Class<T> var1, Object... var2) throws BeansException;
+      <T> ObjectProvider<T> getBeanProvider(Class<T> var1);
+      <T> ObjectProvider<T> getBeanProvider(ResolvableType var1);
+      boolean containsBean(String var1);
+      boolean isSingleton(String var1) throws NoSuchBeanDefinitionException;
+      boolean isPrototype(String var1) throws NoSuchBeanDefinitionException;
+      boolean isTypeMatch(String var1, ResolvableType var2) throws NoSuchBeanDefinitionException;
+      boolean isTypeMatch(String var1, Class<?> var2) throws NoSuchBeanDefinitionException;
+      @Nullable
+      Class<?> getType(String var1) throws NoSuchBeanDefinitionException;
+      @Nullable
+      Class<?> getType(String var1, boolean var2) throws NoSuchBeanDefinitionException;
+      String[] getAliases(String var1);
+  }
+  ```
+
+- FactoryBean
+
+  > FactoryBean是一个接口，当在IOC容器中的Bean实现了FactoryBean接口后，通过getBean(String BeanName)获取到的Bean对象并不是FactoryBean的实现类对象，而是这个实现类中的getObject()方法返回的对象。要想获取FactoryBean的实现类，就要getBean(&BeanName)，在BeanName之前加上&。
+  
+  FactoryBean源码：
+  
+  ```java
+  public interface FactoryBean<T> {
+      String OBJECT_TYPE_ATTRIBUTE = "factoryBeanObjectType";
+      @Nullable
+      T getObject() throws Exception;
+      @Nullable
+      Class<?> getObjectType();
+      default boolean isSingleton() {
+          return true;
+      }
+  }
+  ```
 
 
 
