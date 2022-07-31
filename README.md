@@ -335,19 +335,43 @@ applicationContext4.getMessage("test", null, Locale.CHINESE);
 
 第一种分类方式：可不可以刷新
 
-第二种分类方式：Spring配置的展现形式：xml、注解
+第二种分类方式：Spring配置的展现形式：XML、注解
 
-- AnnotationConfigApplicationContext
-- ClassPathXmlApplicationContext：使用的是类路径，是类的相对路径。
-- FileSystemXmlApplicationContext：使用的是文件的路径，支持绝对路径和相对路径。
+- AnnotationConfigApplicationContext：通过注解（即Java的方式来装配Bean）的方式。
 
-```java
-ClassPathXmlApplicationContext applicationContext5 = new ClassPathXmlApplicationContext("spring.xml");
-System.out.println(applicationContext5.getBean("user"));
-// FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("D:\\workspace\\learning\\spring_learning\\funny_spring\\src\\main\\resources\\spring.xml");
-FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("src/main/resources/spring.xml");
-System.out.println(applicationContext6.getBean("user"));
-```
+  注解的代码如下：
+
+  ```java
+  public class Config {
+      @Bean
+      public User user() {
+          return new User();
+      }
+  }
+  ```
+
+  获取的代码如下：
+
+  ```java
+  AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(Config.class);
+  User user2 = context.getBean("user", User.class);
+  System.out.println(user2);
+  ```
+
+- ClassPathXmlApplicationContext：通过XML文件的方式。使用的是类路径，是类的相对路径。
+
+  ```
+  ClassPathXmlApplicationContext applicationContext5 = new ClassPathXmlApplicationContext("spring.xml");
+  System.out.println(applicationContext5.getBean("user"));
+  ```
+
+- FileSystemXmlApplicationContext：通过XML文件的方式。使用的是文件的路径，支持绝对路径和相对路径。
+
+  ```java
+  // FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("D:\\workspace\\learning\\spring_learning\\funny_spring\\src\\main\\resources\\spring.xml");
+  FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("src/main/resources/spring.xml");
+  System.out.println(applicationContext6.getBean("user"));
+  ```
 
 
 
