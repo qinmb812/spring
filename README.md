@@ -338,8 +338,18 @@ applicationContext4.getMessage("test", null, Locale.CHINESE);
 第二种分类方式：Spring配置的展现形式：xml、注解
 
 - AnnotationConfigApplicationContext
-- ClassPathXmlApplicationContext
-- FileSystemXmlApplicationContext
+- ClassPathXmlApplicationContext：使用的是类路径，是类的相对路径。
+- FileSystemXmlApplicationContext：使用的是文件的路径，支持绝对路径和相对路径。
+
+```java
+ClassPathXmlApplicationContext applicationContext5 = new ClassPathXmlApplicationContext("spring.xml");
+System.out.println(applicationContext5.getBean("user"));
+// FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("D:\\workspace\\learning\\spring_learning\\funny_spring\\src\\main\\resources\\spring.xml");
+FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("src/main/resources/spring.xml");
+System.out.println(applicationContext6.getBean("user"));
+```
+
+
 
 
 

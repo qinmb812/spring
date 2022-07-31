@@ -5,6 +5,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
 import java.util.Locale;
@@ -106,5 +107,13 @@ public class Main {
         // test==测试
 //        applicationContext4.getMessage("test", null, Locale.CHINESE);
 //        System.out.println(user7);
+
+        // ClassPathXmlApplicationContext和FileSystemXmlApplicationContext
+        System.out.println("----------ClassPathXmlApplicationContext和FileSystemXmlApplicationContext---------");
+        ClassPathXmlApplicationContext applicationContext5 = new ClassPathXmlApplicationContext("spring.xml");
+        System.out.println(applicationContext5.getBean("user"));
+//        FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("D:\\workspace\\learning\\spring_learning\\funny_spring\\src\\main\\resources\\spring.xml");
+        FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("src/main/resources/spring.xml");
+        System.out.println(applicationContext6.getBean("user"));
     }
 }
