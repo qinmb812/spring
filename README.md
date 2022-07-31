@@ -311,25 +311,68 @@ Application 继承了很多接口，集成了很多功能，例如：
 - MessageSource：国际化。
 - ApplicationEventPublisher：事件发布。
 
+## 2.5 ApplicationContext
+
+Application与BeanFactory非常的像，比如可以注册Bean，获得Bean等操作（包括BeanDefinition）。
+
+其他功能：获取系统的环境变量、JVM变量信息、发布事件、获取资源、国际化。
+
+```java
+AnnotationConfigApplicationContext applicationContext4 = new AnnotationConfigApplicationContext();
+applicationContext4.refresh();
+// 获取系统的环境变量
+System.out.println(applicationContext4.getEnvironment().getSystemEnvironment());
+// 获取JVM的环境变量
+System.out.println(applicationContext4.getEnvironment().getSystemProperties());
+// 获取资源
+Resource resource = applicationContext4.getResource("D:\\workspace\\learning\\spring_learning\\funny_spring\\src\\main\\resources\\spring.xml");
+System.out.println(resource);
+// 国际化
+// test==test
+// test==测试
+applicationContext4.getMessage("test", null, Locale.CHINESE);
+```
+
 
 
 
 
 # Bug1：*--2022.2.21*
 
+**问题描述：**启动项目之后，报错。
+
+**错误信息：**错误信息如下：
+
 ```
 警告: Exception encountered during context initialization - cancelling refresh attempt:org.springframework.beans.factory.UnsatisfiedDependencyException:Error creating bean with name 'userDaoImpl':Unsatisfied dependency expressed through field 'jdbcTemplate';nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException:No qualifying bean of type 'org.springframework.jdbc.core.JdbcTemplate' available:expected at least 1 bean which qualifies as autowire candidate.Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
 ```
 
-解决方法：出现这个异常是有的方法上面没有写上@Bean注解，在相应的方法上面加上@Bean注解。
+**解决方法：**出现这个异常是有的方法上面没有写上@Bean注解，在相应的方法上面加上@Bean注解。
 
 
 
 # Bug2：*--2022.2.22*
 
+**问题描述：**启动项目之后，报错。
+
+**错误信息：**错误信息如下：
+
 ```
 org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.springframework.transaction.TransactionManager' available: expected single matching bean but found 2: transactionManager,getDataSourceTransactionManager
 ```
 
-解决方法：出现这个异常是对应的类上面写上了@Transactional注解，将该@Transactional注解去掉或者将配置类中的创建事务管理器方删除即可。
+**解决方法：**出现这个异常是对应的类上面写上了@Transactional注解，将该@Transactional注解去掉或者将配置类中的创建事务管理器方删除即可。
 
+
+
+# Bug3：*--2022.7.31*
+
+**问题描述：**使用AnnotationConfigApplicationContext类，然后启动之后，报错。
+
+**错误信息：**错误信息如下：
+
+```
+Exception in thread "main" java.lang.IllegalStateException: org.springframework.context.annotation.AnnotationConfigApplicationContext@1e3708 has not been refreshed yet
+```
+
+**解决方法：**出现这个异常是使用了AnnotationConfigApplicationContext类，调用了他的方法之后，没有使用他的refresh方法。

@@ -5,7 +5,9 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.Resource;
 
+import java.util.Locale;
 import java.util.function.Supplier;
 
 public class Main {
@@ -83,5 +85,26 @@ public class Main {
         beanFactory.registerBeanDefinition("user", beanDefinition1);
         User user6 = beanFactory.getBean("user", User.class);
         System.out.println(user6);
+
+        // ApplicationContext
+        System.out.println("----------ApplicationContext---------");
+        AnnotationConfigApplicationContext applicationContext4 = new AnnotationConfigApplicationContext();
+//        AbstractBeanDefinition beanDefinition3 = BeanDefinitionBuilder.genericBeanDefinition().getBeanDefinition();
+//        beanDefinition3.setBeanClass(User.class);
+//        applicationContext4.registerBeanDefinition("user", beanDefinition3);
+        applicationContext4.refresh();
+//        User user7 = applicationContext4.getBean("user", User.class);
+        // 获取系统的环境变量
+        System.out.println(applicationContext4.getEnvironment().getSystemEnvironment());
+        // 获取JVM的环境变量
+        System.out.println(applicationContext4.getEnvironment().getSystemProperties());
+        // 获取资源
+        Resource resource = applicationContext4.getResource("D:\\workspace\\learning\\spring_learning\\funny_spring\\src\\main\\resources\\spring.xml");
+        System.out.println(resource);
+        // 国际化
+        // test==test
+        // test==测试
+//        applicationContext4.getMessage("test", null, Locale.CHINESE);
+//        System.out.println(user7);
     }
 }
