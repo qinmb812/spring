@@ -296,6 +296,23 @@ BeanFactory就是一个容器，它可以通过注册BeanDefinition的方式注�
   }
   ```
 
+## 2.4 ApplicationContext与BeanFactory的联系和区别
+
+```java
+public interface ApplicationContext extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory, MessageSource, ApplicationEventPublisher, ResourcePatternResolver {}
+public interface ListableBeanFactory extends BeanFactory {}
+public interface HierarchicalBeanFactory extends BeanFactory {}
+```
+
+ApplicationContext继承了ListableBeanFactory、HierarchicalBeanFactory，而ListableBeanFactory、HierarchicalBeanFactory又继承了BeanFactory。
+
+Application 继承了很多接口，集成了很多功能，例如：
+
+- MessageSource：国际化。
+- ApplicationEventPublisher：事件发布。
+
+
+
 
 
 # Bug1：*--2022.2.21*
