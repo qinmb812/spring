@@ -333,7 +333,13 @@ System.out.println(resource);
 applicationContext4.getMessage("test", null, Locale.CHINESE);
 ```
 
+第一种分类方式：可不可以刷新
 
+第二种分类方式：Spring配置的展现形式：xml、注解
+
+- AnnotationConfigApplicationContext
+- ClassPathXmlApplicationContext
+- FileSystemXmlApplicationContext
 
 
 
