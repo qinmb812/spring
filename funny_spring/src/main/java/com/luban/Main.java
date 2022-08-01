@@ -115,5 +115,14 @@ public class Main {
 //        FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("D:\\workspace\\learning\\spring_learning\\funny_spring\\src\\main\\resources\\spring.xml");
         FileSystemXmlApplicationContext applicationContext6 = new FileSystemXmlApplicationContext("src/main/resources/spring.xml");
         System.out.println(applicationContext6.getBean("user"));
+
+        // GenericApplicationContext和AbstractRefreshableApplicationContext
+        System.out.println("----------GenericApplicationContext和AbstractRefreshableApplicationContext---------");
+        ClassPathXmlApplicationContext applicationContext7 = new ClassPathXmlApplicationContext("spring.xml");
+//        AnnotationConfigApplicationContext applicationContext7 = new AnnotationConfigApplicationContext(Config.class);
+        System.out.println(applicationContext7.getBean("user"));
+        System.out.println(applicationContext7.getBean("user"));
+        applicationContext7.refresh();
+        System.out.println(applicationContext7.getBean("user"));
     }
 }

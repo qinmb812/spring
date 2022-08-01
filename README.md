@@ -333,9 +333,33 @@ System.out.println(resource);
 applicationContext4.getMessage("test", null, Locale.CHINESE);
 ```
 
-第一种分类方式：可不可以刷新
+**第一种分类方式：**可不可以刷新
 
-第二种分类方式：Spring配置的展现形式：XML、注解
+refresh的作用？
+
+相当于重启了容器，先将容器中的内容（BeanDefinition和Bean）清空掉，然后根据target下的已经的xml文件或者编译好的class文件来进行Bean的注入等操作，就相当于电脑系统重启是一样的，把内存清空，根据磁盘内容重新载入。所以视频中的两次getBean获得的bean是不一样的。
+
+- GenericApplicationContext：AnnotationConfigApplicationContext-->GenericApplicationContext。
+
+  调用refresh方法会报错，错误信息如下：
+
+  ```java
+  Exception in thread "main" java.lang.IllegalStateException: GenericApplicationContext does not support multiple refresh attempts: just call 'refresh' once
+  ```
+
+- AbstractRefreshableApplicationContext：ClassPathXmlApplicationContext-->AbstractXmlApplicationContext-->AbstractRefreshableConfigApplicationContext-->AbstractRefreshableApplicationContext。
+
+  测试代码如下：
+
+  ```java
+  ClassPathXmlApplicationContext applicationContext7 = new ClassPathXmlApplicationContext("spring.xml");
+  System.out.println(applicationContext7.getBean("user"));
+  System.out.println(applicationContext7.getBean("user"));
+  applicationContext7.refresh();
+  System.out.println(applicationContext7.getBean("user"));
+  ```
+
+**第二种分类方式：**Spring配置的展现形式：XML、注解
 
 - AnnotationConfigApplicationContext：通过注解（即Java的方式来装配Bean）的方式。
 
@@ -360,7 +384,7 @@ applicationContext4.getMessage("test", null, Locale.CHINESE);
 
 - ClassPathXmlApplicationContext：通过XML文件的方式。使用的是类路径，是类的相对路径。
 
-  ```
+  ```java
   ClassPathXmlApplicationContext applicationContext5 = new ClassPathXmlApplicationContext("spring.xml");
   System.out.println(applicationContext5.getBean("user"));
   ```
@@ -383,7 +407,7 @@ applicationContext4.getMessage("test", null, Locale.CHINESE);
 
 **错误信息：**错误信息如下：
 
-```
+```java
 警告: Exception encountered during context initialization - cancelling refresh attempt:org.springframework.beans.factory.UnsatisfiedDependencyException:Error creating bean with name 'userDaoImpl':Unsatisfied dependency expressed through field 'jdbcTemplate';nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException:No qualifying bean of type 'org.springframework.jdbc.core.JdbcTemplate' available:expected at least 1 bean which qualifies as autowire candidate.Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
 ```
 
@@ -397,7 +421,7 @@ applicationContext4.getMessage("test", null, Locale.CHINESE);
 
 **错误信息：**错误信息如下：
 
-```
+```java
 org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.springframework.transaction.TransactionManager' available: expected single matching bean but found 2: transactionManager,getDataSourceTransactionManager
 ```
 
@@ -411,7 +435,7 @@ org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying
 
 **错误信息：**错误信息如下：
 
-```
+```java
 Exception in thread "main" java.lang.IllegalStateException: org.springframework.context.annotation.AnnotationConfigApplicationContext@1e3708 has not been refreshed yet
 ```
 
