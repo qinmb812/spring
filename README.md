@@ -399,6 +399,51 @@ refresh的作用？
 
 
 
+# 3 Bean的生命周期
+
+## 3.1 Bean的生命周期概述
+
+生成Bean实际上就是new一个对象、填充属性。
+
+## 3.2 Bean创建的生命周期
+
+1. 生成BeanDefinition
+2. 合并BeanDefinition
+3. 加载类
+4. 实例化前
+5. 推断构造方法
+6. 实例化
+7. BeanDefinition的后置处理
+8. 填充属性
+9. 执行Aware：
+   - BeanNameAware
+   - BeanClassLoaderAware
+   - BeanFactoryAware
+10. 初始化前
+    - ApplicationContextAwareProcessor主要也是执行一些其他的Aware
+      - EmbeddedValueResolverAware
+      - ResourceLoaderAware
+      - ApplicationEventPublisherAware
+      - MessageSourceAware
+      - ApplicationContextAware
+    - InitDestroyAnnotationBeanPostProcessor——执行@PostConstruct定义的方法
+11. 初始化：
+    - 执行InitializingBean接口中的方法
+    - 执行BeanDefinition中所定义的初始化方法
+12. 初始化后：AbstractAutoProxyCreator——AOP功能实现者
+
+## 3.3 Bean销毁的生命周期
+
+1. 容器关闭
+2. 发布ContextClosedEvent事件
+3. 调用LifecycleProcessor的onClose方法
+4. 销毁单例Bean
+   - 找出所有的DisposableBean（实现了DisposableBean接口的Bean）
+   - 遍历每个DisposableBean
+   - 找出依赖了当前DisposableBean的其他Bean，将这些Bean从单例池中移除掉
+   - 调用DisposableBean的destroy()方法
+   - 找到当前DisposableBean所包含的inner beans，将这些Bean从单例池中移除掉
+
 
 
 # Bug1：*--2022.2.21*
