@@ -74,7 +74,7 @@ Spring学习
    System.out.println(user2);
    ```
 
-3. @Bean注解：声明式方式定义Bean。放在类上，注入一个Bean。
+3. @Bean注解：声明式方式定义Bean。放在类上，注入一个Bean。默认情况下bean的名称和方法名称相同，添加的bean的id为方法名。
 
    @Bean注解的代码如下：
 
@@ -436,6 +436,50 @@ refresh的作用？
    ```
 
 5. 推断构造方法
+
+   如果该类没有显示的构造方法，实例化时会调用无参的构造方法；如果有一个显式的构造方法，则会调用该构造方法来进行实例化。当有一个以上的构造方法且均为有参的构造方法时，就会报错啦。只要有显式无参的构造方法就一定会调用无参构造方法来实例化。
+
+   将@Autowired注解加到构造方法上，此时，Spring实现Bean的实例化的时候调用的构造器就是Autowired标注的构造方法了——同理不可以给两个构造方法上都加一个@Autowired注解。该注解通过参数required的值来控制@Autowired是否必须生效。默认required为true，当为false时表示为可选的，当没有为true的@Autowired时，选择权可以交给Spring来选择。
+
+   使用了@Autowired(required = false)注解来推断构造方法：
+
+   - 首先是选择参数个数多的，然后再判断这些参数多个可不可用（先根据类型去找Bean。如果只有一个Bean，就可用；如果有多个Bean，就根据参数名去找Bean【使用的是@Bean注解的话，默认是方法名是Bean的名字】）。
+     - 如果可用，就选择该构造方法；
+     - 如果不可用，就重复当前这一步。
+
+   - 如果参数个数相同，推断的构造方法就与相关方法的顺序有关。
+
+   ```java
+   @Component
+   public class UserService {
+       private User user;
+       @Autowired(required = false)
+       public UserService(User user) {
+           this.user = user;
+           System.out.println("一个参数的构造方法");
+       }
+       /**
+        * 使用了@Autowired(required = false)注解来推断构造方法：
+        *      1、首先是选择参数个数多的，然后再判断这些参数多个可不可用
+        *          （先根据类型去找Bean。如果只有一个Bean，就可用；如果有多个Bean，就根据参数名去找Bean【使用的是@Bean注解的话，默认是方法名是Bean的名字】）。
+        *              如果可用，就选择该构造方法；
+        *              如果不可用，就重复当前这一步。
+        *      2、如果参数个数相同，推断的构造方法就与相关方法的顺序有关
+        * @param user
+        * @param user2
+        */
+       @Autowired(required = false)
+       public UserService(User user, User user2) {
+           this.user = user;
+           System.out.println("两个参数的构造方法");
+       }
+       @Autowired(required = false)
+       public UserService(User user, Person person) {
+           this.user = user;
+           System.out.println("person两个参数的构造方法");
+       }
+   }
+   ```
 
 6. 实例化
 
