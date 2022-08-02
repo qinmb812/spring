@@ -1,4 +1,4 @@
-package com.qin;
+package com.qin.demo1;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

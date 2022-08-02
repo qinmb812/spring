@@ -408,17 +408,46 @@ refresh的作用？
 ## 3.2 Bean创建的生命周期
 
 1. 生成BeanDefinition
+
 2. 合并BeanDefinition
+
 3. 加载类
+
 4. 实例化前
+
+   实例化前就是指已经获取到了BeanDefinition信息，还没有创建出对象的时候。
+
+   通过实现BeanPostProcessor的子接口InstantiationAwareBeanPostProcessor，来实现实例化前的一些操作。
+
+   测试代码如下：
+
+   ```java
+   @Component
+   public class QinBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
+       @Override
+       public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+           if ("userService".equals(beanName)) {
+               System.out.println("实例化前");
+               // return new Object();    // 这里执行了return，那么实例化、实例化后、初始化前、初始化这些步骤都不会执行。而初始化后还会执行。
+           }
+           return null;
+       }
+   }
+   ```
+
 5. 推断构造方法
+
 6. 实例化
+
 7. BeanDefinition的后置处理
+
 8. 填充属性
+
 9. 执行Aware：
    - BeanNameAware
    - BeanClassLoaderAware
    - BeanFactoryAware
+
 10. 初始化前
     - ApplicationContextAwareProcessor主要也是执行一些其他的Aware
       - EmbeddedValueResolverAware
@@ -427,9 +456,11 @@ refresh的作用？
       - MessageSourceAware
       - ApplicationContextAware
     - InitDestroyAnnotationBeanPostProcessor——执行@PostConstruct定义的方法
+
 11. 初始化：
     - 执行InitializingBean接口中的方法
     - 执行BeanDefinition中所定义的初始化方法
+
 12. 初始化后：AbstractAutoProxyCreator——AOP功能实现者
 
 ## 3.3 Bean销毁的生命周期
@@ -518,7 +549,6 @@ public class QinBeanPostProcessor implements BeanPostProcessor {
             if (field.isAnnotationPresent(QinValue.class)) {
                 QinValue fieldAnnotation = field.getAnnotation(QinValue.class);
                 String value = fieldAnnotation.value();
-                System.out.println(value);
                 field.setAccessible(true);
                 try {
                     field.set(bean, value);

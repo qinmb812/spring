@@ -1,4 +1,4 @@
-package com.qin;
+package com.qin.demo1;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
