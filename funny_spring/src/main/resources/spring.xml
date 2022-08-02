@@ -9,6 +9,6 @@
                            http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop.xsd">
-    <bean id="user" class="com.luban.User"/>
-    <bean id="user2" class="com.luban.User" scope="prototype"/>
+    <bean id="user" class="com.qin.User"/>
+    <bean id="user2" class="com.qin.User" scope="prototype"/>
 </beans>

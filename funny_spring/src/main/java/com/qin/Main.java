@@ -1,4 +1,4 @@
-package com.luban;
+package com.qin;
 
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -8,7 +8,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
-import java.util.Locale;
 import java.util.function.Supplier;
 
 public class Main {
@@ -130,5 +129,6 @@ public class Main {
         AnnotationConfigApplicationContext applicationContext8 = new AnnotationConfigApplicationContext(Config.class);
         UserService userService = applicationContext8.getBean("userService", UserService.class);
         System.out.println(userService);
+        userService.test();
     }
 }

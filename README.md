@@ -481,6 +481,65 @@ public class LubanBeanPostProcessor implements BeanPostProcessor {
 }
 ```
 
+**例子：**利用后置处理器来进行对象的属性赋值，以实现一个与Spring提供的@Value注解功能一样的注解。
+
+利用注解标注一个Bean组件：
+
+```java
+@Component
+public class UserService {
+    @QinValue("qinxxx")
+    private String name;
+    public void test() {
+        System.out.println(name);
+    }
+}
+```
+
+实现QinValue注解：
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface QinValue {
+    String value();
+}
+```
+
+写后置处理器中对属性赋值的逻辑：
+
+```java
+@Component
+public class QinBeanPostProcessor implements BeanPostProcessor {
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        Class<?> clazz = bean.getClass();   // UserService.class
+        for (Field field : clazz.getDeclaredFields()) {
+            if (field.isAnnotationPresent(QinValue.class)) {
+                QinValue fieldAnnotation = field.getAnnotation(QinValue.class);
+                String value = fieldAnnotation.value();
+                System.out.println(value);
+                field.setAccessible(true);
+                try {
+                    field.set(bean, value);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
+    }
+}
+```
+
+容器中获得该Bean并调用对应的方法：
+
+```java
+AnnotationConfigApplicationContext applicationContext8 = new AnnotationConfigApplicationContext(Config.class);
+UserService userService = applicationContext8.getBean("userService", UserService.class);
+userService.test();
+```
+
 
 
 

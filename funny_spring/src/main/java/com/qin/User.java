@@ -1,4 +1,4 @@
-package com.luban;
+package com.qin;
 
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.luban;
+package com.qin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -7,4 +7,10 @@ import org.springframework.stereotype.Component;
 public class UserService {
     @Autowired
     private User user;
+    @QinValue("qinxxx")
+    private String name;
+
+    public void test() {
+        System.out.println(name);
+    }
 }
