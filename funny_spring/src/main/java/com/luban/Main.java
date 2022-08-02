@@ -129,5 +129,6 @@ public class Main {
         System.out.println("----------Bean的生命周期---------");
         AnnotationConfigApplicationContext applicationContext8 = new AnnotationConfigApplicationContext(Config.class);
         UserService userService = applicationContext8.getBean("userService", UserService.class);
+        System.out.println(userService);
     }
 }

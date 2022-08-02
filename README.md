@@ -444,6 +444,45 @@ refresh的作用？
    - 调用DisposableBean的destroy()方法
    - 找到当前DisposableBean所包含的inner beans，将这些Bean从单例池中移除掉
 
+## 3.4 Bean的后置处理器
+
+对象实例化之后与该对象变成Bean之前会经过Bean的后置处理器并执行其中的两个方法：
+
+- postProcessBeforeInitialization
+- postProcessAfterInitialization
+
+并且是先执行Before再执行After。当重新这俩个方法使得return的对象不为空（默认返回空）时，则Bean就会return的对象，反之根据Bean注册时的配置该怎样就怎样。
+
+当执行SpringBoot的启动方法时，就会将项目中所有的Bean加载，而每一个Bean的加载都会调用上述的两个方法。
+
+看代码中两个方法的参数，一个是对象，一个是Bean的名字。可以对其做一些操作。
+
+**注意：**后置处理器是针对所有Bean的，所以如果是想对某一个Bean创建前通过处理器做一些特殊操作，一定记得加一些判断条件，例如通过参数beanName做判断。
+
+测试代码如下：
+
+```java
+@Component
+public class LubanBeanPostProcessor implements BeanPostProcessor {
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("postProcessBeforeInitialization");
+        return BeanPostProcessor.super.postProcessBeforeInitialization(bean, beanName);
+    }
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("postProcessAfterInitialization");
+        if ("userService".equals(beanName)){
+            System.out.println(beanName);
+            System.out.println(bean);
+        }
+        return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
+    }
+}
+```
+
+
+
 
 
 # Bug1：*--2022.2.21*
