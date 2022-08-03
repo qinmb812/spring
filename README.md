@@ -443,7 +443,7 @@ refresh的作用？
 
    使用了@Autowired(required = false)注解来推断构造方法：
 
-   - 首先是选择参数个数多的，然后再判断这些参数多个可不可用（先根据类型去找Bean。如果只有一个Bean，就可用；如果有多个Bean，就根据参数名去找Bean【使用的是@Bean注解的话，默认是方法名是Bean的名字】）。
+   - 首先是选择参数个数多的，然后再判断这些参数多个可不可用（先byType，再byName。先根据类型去找Bean。如果只有一个Bean，就可用；如果有多个Bean，就根据参数名去找Bean【使用的是@Bean注解的话，默认是方法名是Bean的名字】）。
      - 如果可用，就选择该构造方法；
      - 如果不可用，就重复当前这一步。
 
@@ -484,6 +484,23 @@ refresh的作用？
 6. 实例化
 
 7. BeanDefinition的后置处理
+
+   实例化后：只能通过postProcessAfterInstantiation方法对该对象的属性值进行操作，权限范围只局限于传来的对象。通过返回一个布尔型的值，来作为一个开关，返回false时是告诉Spring不需要它再为该属性注入值了，反之Spring可以调用一些方法比如Set方法继续进行属性赋值。
+
+   测试代码如下：
+
+   ```java
+   @Component
+   public class QinBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
+       @Override
+       public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+           if ("userService".equals(beanName)) {
+               System.out.println("实例化后");
+           }
+           return true;
+       }
+   }
+   ```
 
 8. 填充属性
 

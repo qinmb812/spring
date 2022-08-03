@@ -14,4 +14,12 @@ public class QinBeanPostProcessor implements InstantiationAwareBeanPostProcessor
         }
         return null;
     }
+
+    @Override
+    public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+        if ("userService".equals(beanName)) {
+            System.out.println("实例化后");
+        }
+        return true;
+    }
 }

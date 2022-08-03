@@ -38,4 +38,10 @@ public class UserService {
         this.user = user;
         System.out.println("person两个参数的构造方法");
     }
+
+    @Autowired
+    public void setUser(User user) {
+        System.out.println("set方法注入");
+        this.user = user;
+    }
 }
